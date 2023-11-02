@@ -1,0 +1,37 @@
+name: Commit
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      main
+
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.5
+
+      - name: Execute maven build
+        run: mvn clean install
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: target/*.jar
