@@ -29,9 +29,3 @@ jobs:
 
       - name: Execute maven build
         run: mvn clean install
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-artifact
-          path: target/*.jar

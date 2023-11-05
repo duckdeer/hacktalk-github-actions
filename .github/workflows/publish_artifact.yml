@@ -1,0 +1,44 @@
+name: Publish artifact
+on:
+  workflow_dispatch:
+
+    inputs:
+      artifact-name:
+        description: "The name of the artifact"
+        type: string
+        default: "my-artifact"
+        required: true
+      upload-artifact:
+        description: "Should artifact being uploaded?"
+        type: boolean
+        default: true
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.5
+
+      - name: Execute maven build
+        run: mvn clean install
+
+      - name: Upload artifact
+        if: ${{ inputs.upload-artifact }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: target/*.jar

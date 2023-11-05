@@ -1,0 +1,43 @@
+name: Parallel
+on:
+  workflow_dispatch:
+
+env:
+  artifact-name: my-artifact
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Runner Setup
+        uses: .github/actions/runner_setup
+
+      - name: Execute maven build
+        run: mvn clean install
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.artifact-name}}
+          path: target/*.jar
+
+  process:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.artifact-name}}
+
+  other-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Do something
+        run: sleep 10s 
