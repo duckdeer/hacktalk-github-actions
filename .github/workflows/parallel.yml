@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Runner Setup
-        uses: .github/actions/runner_setup
+        uses: ./.github/actions/runner_setup
 
       - name: Execute maven build
         run: mvn clean install
