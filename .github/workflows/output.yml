@@ -10,22 +10,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '17'
+      - name: Runner Setup
+        uses: ./.github/actions/runner_setup
 
-      - name: Bump Version
-        id: bump
-        uses: nnichols/maven-version-bump-action@v3
-        with:
-          github-token: ${{ github.token }}
+      - name: Step one
+        id: step_one
+        run: echo project_version=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout) >> $GITHUB_ENV
     
-      - name: Print Version
-        run: "echo 'Version: ${{steps.bump.outputs.version}}'"
-
-
-
-
-
+      - name: Step two
+        run: "echo 'Version: $project_version"
