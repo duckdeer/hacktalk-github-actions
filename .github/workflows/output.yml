@@ -15,7 +15,11 @@ jobs:
 
       - name: Step one
         id: step_one
-        run: echo project_version=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout) >> $GITHUB_ENV
+        run: |
+          echo project_version_env=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout) >> $GITHUB_ENV
+          echo project_version_output=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout) >> $GITHUB_OUTPUT
     
       - name: Step two
-        run: echo "Project version is $project_version"
+        run: | 
+          echo "Project version from env is $project_version_env"
+          echo "Project version from output is ${{ steps.step_one.outputs.project_version_output }}"
