@@ -18,4 +18,4 @@ jobs:
         run: echo project_version=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout) >> $GITHUB_ENV
     
       - name: Step two
-        run: "echo 'Version: ${{ env.project_version }}"
+        run: echo "Project version is $project_version"
