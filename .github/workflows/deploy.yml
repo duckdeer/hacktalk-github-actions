@@ -8,6 +8,6 @@ jobs:
     environment: production
     steps:
       - name: Deploy to production
-        uses: | 
+        run: | 
           echo 'Execute deployment'
           sleep 10s
