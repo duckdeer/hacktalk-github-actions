@@ -1,0 +1,13 @@
+name: Publish artifact
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Deploy to production
+        uses: | 
+          echo 'Execute deployment'
+          sleep 10s
